@@ -1,0 +1,26 @@
+{{-- @can('تعديل طالب') --}}
+{{-- <a class="btn btn-sm btn-primary" data-toggle="modal" href="#edit_user"
+
+data-id=                "{{ $data->id }}"
+data-title_ar=          "{{ $data->title_ar }}"
+data-title_en=          "{{ $data->title_en }}"
+data-desctiption_ar=          "{{ $data->desctiption_ar }}"
+data-desctiption_en=          "{{ $data->desctiption_en }}"
+data-icon=          "{{ $data->icon }}"
+
+
+
+> <i class="fa fa-edit"></i> </a> --}}
+
+{{-- @endcan --}}
+
+<a class="btn btn-sm btn-primary"  href="{{ route('dashboard.preview_cards', $data->id) }}"
+
+
+> <i class="fa fa-eye"></i> </a>
+
+{{-- @can('حذف طالب') --}}
+{{-- <a class="btn btn-sm btn-danger" data-toggle="modal" href="#delete_user"
+data-id=             "{{ $data->id }}"
+><i class="fa fa-trash"></i></a> --}}
+{{-- @endcan --}}

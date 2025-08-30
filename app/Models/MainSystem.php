@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasTranslationFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -14,6 +15,7 @@ class MainSystem extends Model implements HasMedia
     use HasFactory;
     use HasTranslations;
     use InteractsWithMedia;
+    use HasTranslationFields;
 
     protected $table = 'main_systems';
     protected $guarded = [];

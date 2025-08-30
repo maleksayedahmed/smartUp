@@ -324,24 +324,14 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('dashboard.get_all_banners') }}",
-            // columns: [
-            //     {data: 'DT_RowIndex'   ,name: 'DT_RowIndex', orderable: false, searchable: false},
-            //     {data: 'title_ar'          ,name: 'title_ar'},
-            //     {data: 'title_en'          ,name: 'title_en'},
-            //     {data: 'description_ar'          ,name: 'desc_ar', searchable: false},
-            //     {data: 'description_en'          ,name: 'desc_en', searchable: false},
-            //     {data: 'action'        ,name: 'action'},
-            // ],
-
             columns: [
                 {data: 'DT_RowIndex'   ,name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'title.ar'   , name: 'title_ar'},
-                {data: 'title.en'   , name: 'title_en'},
-                {data: 'description.ar'    , name: 'description_ar', searchable: false},
-                {data: 'description.en'    , name: 'description_en', searchable: false},
+                {data: 'title_ar'          ,name: 'title_ar'},
+                {data: 'title_en'          ,name: 'title_en'},
+                {data: 'description_ar'          ,name: 'desc_ar', searchable: false},
+                {data: 'description_en'          ,name: 'desc_en', searchable: false},
                 {data: 'action'        ,name: 'action'},
             ],
-
             "lengthMenu": [[5,25,50,-1],[5,25,50,'All']],     // page length options
         });
         });

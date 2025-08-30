@@ -90,7 +90,11 @@ class GallerySeeder extends Seeder
                 ['title->ar' => $itemData['title']['ar']],
                 [
                     'title' => $itemData['title'],
+                    'title_ar' => $itemData['title']['ar'],
+                    'title_en' => $itemData['title']['en'],
                     'description' => $itemData['description'],
+                    'description_ar' => $itemData['description']['ar'],
+                    'description_en' => $itemData['description']['en'],
                     'image' => $itemData['image']
                 ]
             );

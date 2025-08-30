@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('package_id') ->constrained('packages')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title_ar',255);
             $table->string('title_en',255);
-            $table->string('desctiption_ar',255);
-            $table->string('desctiption_en',255);
+            $table->string('description_ar',255);
+            $table->string('description_en',255);
             $table->text('image')->required();
             $table->timestamps();
         });

@@ -17,6 +17,11 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained('packages')->onDelete('cascade');
             $table->json('title');
             $table->json('description')->nullable();
+            $table->string('title_ar', 255)->nullable();
+            $table->string('title_en', 255)->nullable();
+            $table->text('description_ar')->nullable();
+            $table->text('description_en')->nullable();
+
             $table->string('slug')->nullable()->unique();
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();

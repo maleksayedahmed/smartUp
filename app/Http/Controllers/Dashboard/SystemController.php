@@ -172,8 +172,8 @@ class SystemController extends Controller
             $user = new System();
             $user->title_ar = $request->title_ar;
             $user->title_en = $request->title_en;
-            $user->desctiption_ar = $request->desc_ar;
-            $user->desctiption_en = $request->desc_en;
+            $user->description_ar = $request->desc_ar;
+            $user->description_en = $request->desc_en;
 
             if ($request->hasFile('image')) {
                 $oldImagePath = public_path('attachments/systems/' . $user->image);
@@ -241,8 +241,8 @@ class SystemController extends Controller
             $system = System::findOrFail($request->id);
             $system->title_ar = $request->title_ar;
             $system->title_en = $request->title_en;
-            $system->desctiption_ar = $request->desc_ar;
-            $system->desctiption_en = $request->desc_en;
+            $system->description_ar = $request->desc_ar;
+            $system->description_en = $request->desc_en;
 
             if ($request->hasFile('image')) {
                 $oldImagePath = public_path('attachments/systems/' . $system->image);

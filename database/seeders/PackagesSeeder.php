@@ -214,7 +214,11 @@ class PackagesSeeder extends Seeder
                     'package_id' => $package->id,
                     'slug' => $sysKey,
                     'title' => $sysData['title'],
+                    'title_ar' => $sysData['title']['ar'],
+                    'title_en' => $sysData['title']['en'],
                     'description' => $sysData['description'],
+                    'description_ar' => $sysData['description']['ar'],
+                    'description_en' => $sysData['description']['en'],
                 ]);
                 // media
                 foreach ($sysData['media'] as $media) {
@@ -231,6 +235,8 @@ class PackagesSeeder extends Seeder
                     ], [
                         'package_system_id' => $pkgSys->id,
                         'title' => ['ar' => $feature['ar'], 'en' => $feature['en']],
+                        'title_ar' => $feature['ar'],
+                        'title_en' => $feature['en'],
                     ]);
                 }
             }

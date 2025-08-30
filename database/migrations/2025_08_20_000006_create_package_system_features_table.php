@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('package_system_id')->constrained('package_systems')->onDelete('cascade');
             $table->json('title');
+            $table->string('title_ar', 255)->nullable();
+            $table->string('title_en', 255)->nullable();
             $table->timestamps();
         });
     }

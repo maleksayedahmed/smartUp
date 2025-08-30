@@ -29,19 +29,19 @@
 
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
-                                <h4 class="mb-0 text-primary">{{ $preview_card->title_ar }}</h4>
-                                <h4 class="mb-0 text-muted">{{ $preview_card->title_en }}</h4>
+                                <h4 class="mb-0 text-primary">{{ $preview_card->getTranslation('title' , 'ar') }}</h4>
+                                <h4 class="mb-0 text-muted">{{ $preview_card->getTranslation('title' , 'en') }}</h4>
                             </div>
                         </div>
 
                         <div class="border-top pt-3">
                             <p class="mb-2 text-justify">
                                 <span class="badge badge-light-primary">الوصف بالعربي</span>
-                                {{ $preview_card->desctiption_ar }}
+                                {{ $preview_card->getTranslation('description' , 'ar') }}
                             </p>
                             <p class="mb-0 text-justify">
                                 <span class="badge badge-light-secondary">Description (EN)</span>
-                                {{ $preview_card->desctiption_en }}
+                                {{ $preview_card->getTranslation('description' , 'en') }}
                             </p>
                         </div>
                     </div>
@@ -83,14 +83,14 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="edit_desctiption_ar">الوصف (عربي)</label>
-                                    <textarea class="form-control" id="edit_desctiption_ar" name="desctiption_ar" rows="3" required>{{ $preview_card->desctiption_ar }}</textarea>
+                                    <label for="edit_description_ar">الوصف (عربي)</label>
+                                    <textarea class="form-control" id="edit_description_ar" name="description_ar" rows="3" required>{{ $preview_card->description_ar }}</textarea>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="edit_desctiption_en">الوصف (إنجليزي)</label>
-                                    <textarea class="form-control" id="edit_desctiption_en" name="desctiption_en" rows="3" required>{{ $preview_card->desctiption_en }}</textarea>
+                                    <label for="edit_description_en">الوصف (إنجليزي)</label>
+                                    <textarea class="form-control" id="edit_description_en" name="description_en" rows="3" required>{{ $preview_card->description_en }}</textarea>
                                 </div>
                             </div>
                         </div>

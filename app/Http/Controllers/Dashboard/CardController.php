@@ -54,14 +54,14 @@ class CardController extends Controller
                 [
                      'title_ar' => 'required',
                      'title_en' => 'required',
-                    'desctiption_ar' => 'required',
-                    'desctiption_en' => 'required'
+                    'description_ar' => 'required',
+                    'description_en' => 'required'
                 ],
                 [
                      'title_ar.required' => 'حقل العنوان العربي مطلوب',
                     'title_en.required' => 'حقل العنوان الإنجليزي مطلوب',
-                      'desctiption_ar.required' => 'حقل الوصف العربي مطلوب',
-                 'desctiption_en.required' => 'حقل الوصف الإنجليزي مطلوب',
+                      'description_ar.required' => 'حقل الوصف العربي مطلوب',
+                 'description_en.required' => 'حقل الوصف الإنجليزي مطلوب',
                 ]
             );
 

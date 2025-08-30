@@ -87,8 +87,8 @@ class PackageSpecController extends Controller
             $user->package_id       = $request->package_id;
             $user->title_ar         = $request->title_ar;
             $user->title_en         = $request->title_en;
-            $user->desctiption_ar   = $request->desc_ar;
-            $user->desctiption_en   = $request->desc_en;
+            $user->description_ar   = $request->desc_ar;
+            $user->description_en   = $request->desc_en;
 
             if ($request->hasFile('image')) {
                 // حذف الصورة القديمة لو موجودة (رغم انه جديد، بس لو تحب تحتاط)
@@ -155,8 +155,8 @@ class PackageSpecController extends Controller
             $system->package_id       = $request->package_id;
             $system->title_ar         = $request->title_ar;
             $system->title_en         = $request->title_en;
-            $system->desctiption_ar   = $request->desc_ar;
-            $system->desctiption_en   = $request->desc_en;
+            $system->description_ar   = $request->desc_ar;
+            $system->description_en   = $request->desc_en;
 
             if ($request->hasFile('image')) {
                 $oldImagePath = public_path('attachments/package_spec/' . $system->image);

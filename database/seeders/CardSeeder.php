@@ -55,7 +55,14 @@ class CardSeeder extends Seeder
         foreach ($cards as $card) {
             Card::firstOrCreate(
                 ['title->ar' => $card['title']['ar']],
-                $card
+                [
+                    'title' => $card['title'],
+                    'title_ar' => $card['title']['ar'],
+                    'title_en' => $card['title']['en'],
+                    'description' => $card['description'],
+                    'description_ar' => $card['description']['ar'],
+                    'description_en' => $card['description']['en'],
+                ]
             );
         }
     }

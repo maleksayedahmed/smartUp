@@ -25,7 +25,14 @@ class BannerSeeder extends Seeder
         foreach ($banners as $banner) {
             Banner::firstOrCreate(
                 ['title->ar' => $banner['title']['ar']],
-                $banner
+                [
+                    'title' => $banner['title'],
+                    'title_ar' => $banner['title']['ar'],
+                    'title_en' => $banner['title']['en'],
+                    'description' => $banner['description'],
+                    'description_ar' => $banner['description']['ar'],
+                    'description_en' => $banner['description']['en'],
+                ]
             );
         }
     }

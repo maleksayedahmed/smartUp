@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title_ar',255);
             $table->string('title_en',255);
-            $table->string('desctiption_ar',255);
-            $table->string('desctiption_en',255);
+            $table->string('description_ar',255);
+            $table->string('description_en',255);
             $table->timestamps();
         });
     }

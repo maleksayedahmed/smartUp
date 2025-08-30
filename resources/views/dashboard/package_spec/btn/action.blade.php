@@ -4,8 +4,8 @@
 data-id=                "{{ $data->id }}"
 data-title_ar=          "{{ $data->title_ar }}"
 data-title_en=          "{{ $data->title_en }}"
-data-desctiption_ar=          "{{ $data->desctiption_ar }}"
-data-desctiption_en=          "{{ $data->desctiption_en }}"
+data-description_ar=          "{{ $data->description_ar }}"
+data-description_en=          "{{ $data->description_en }}"
 data-package_id=          "{{ $data->package_id }}"
 data-image=          "{{ $data->image }}"
 

@@ -112,7 +112,11 @@ class MainSystemSeeder extends Seeder
                 ['name->ar' => $systemData['name']['ar']],
                 [
                     'name' => $systemData['name'],
+                    'name_ar' => $systemData['name']['ar'],
+                    'name_en' => $systemData['name']['en'],
                     'description' => $systemData['description'],
+                    'description_ar' => $systemData['description']['ar'],
+                    'description_en' => $systemData['description']['en'],
                     'image' => $systemData['image']
                 ]
             );

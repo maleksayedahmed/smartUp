@@ -31,7 +31,7 @@ Route::get('/dcsc', function() {
     return 'what you want';
 });
 
-Route::get('/home', [UserHomeController::class, 'index'])->name('home');
+Route::get('/', [UserHomeController::class, 'index'])->name('home');
 Route::get('/contact-us', [UserHomeController::class, 'contactUs'])->name('contact-us');
 Route::get('/userpackages', [PackagesPageController::class, 'index'])->name('userpackages');
 
@@ -43,7 +43,7 @@ Route::post('/contact/submit', [ContactController::class, 'submitForm'])->name('
 Route::post('/consultation/book', [ContactController::class, 'bookConsultation'])->name('consultation.book');
 Route::post('/consultation/store', [\App\Http\Controllers\User\ConsultationController::class, 'store'])->name('consultation.store');
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 })->middleware(['auth']);
 

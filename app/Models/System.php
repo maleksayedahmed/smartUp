@@ -19,7 +19,7 @@ class System extends Model implements HasMedia
 
     public array $translatable = [
         'title',
-        'desctiption',
+        'description',
     ];
 
     // Backward compatibility for admin listing using $system->image

@@ -378,8 +378,8 @@
                 {data: 'DT_RowIndex'     ,name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'title_ar'        ,name: 'title_ar'},
                 {data: 'title_en'        ,name: 'title_en'},
-                {data: 'desctiption_ar'  ,name: 'desc_ar', searchable: false},
-                {data: 'desctiption_en'  ,name: 'desc_en', searchable: false},
+                {data: 'description_ar'  ,name: 'desc_ar', searchable: false},
+                {data: 'description_en'  ,name: 'desc_en', searchable: false},
                 {data: 'image'            ,name: 'image', searchable: false},
                 {data: 'action'          ,name: 'action'},
             ],
@@ -497,8 +497,8 @@
             var id =                  button.data('id')
             var title_ar =                button.data('title_ar')
             var title_en =                button.data('title_en')
-            var desctiption_ar =                button.data('desctiption_ar')
-            var desctiption_en =                button.data('desctiption_en')
+            var description_ar =                button.data('description_ar')
+            var description_en =                button.data('description_en')
             var image =                button.data('image')
             var package_id =                button.data('package_id')
 
@@ -508,8 +508,8 @@
             modal.find('.modal-body #id2').val(id);
             modal.find('.modal-body #title_ar2').val(title_ar);
             modal.find('.modal-body #title_en2').val(title_en);
-            modal.find('.modal-body #desc_ar2').val(desctiption_ar);
-            modal.find('.modal-body #desc_en2').val(desctiption_en);
+            modal.find('.modal-body #desc_ar2').val(description_ar);
+            modal.find('.modal-body #desc_en2').val(description_en);
             modal.find('.modal-body #package_id_edit').val(package_id);
             $(".modal-body #image2").attr('src',image);
 

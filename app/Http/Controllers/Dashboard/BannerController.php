@@ -62,8 +62,8 @@ class BannerController extends Controller
             $banner = Banner::create([
                 'title_ar' => $request->title_ar,
                 'title_en' => $request->title_en,
-                'desctiption_ar' => $request->desc_ar,
-                'desctiption_en' => $request->desc_en
+                'description_ar' => $request->desc_ar,
+                'description_en' => $request->desc_en
             ]);
 
             return response()->json([
@@ -99,8 +99,8 @@ class BannerController extends Controller
             $banner->update([
                 'title_ar' => $request->title_ar,
                 'title_en' => $request->title_en,
-                'desctiption_ar' => $request->desc_ar,
-                'desctiption_en' => $request->desc_en
+                'description_ar' => $request->desc_ar,
+                'description_en' => $request->desc_en
             ]);
 
             return response()->json([

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->json('description')->after('title');
         });
 
-        // Update cards table  
+        // Update cards table
         Schema::table('cards', function (Blueprint $table) {
             $table->json('title')->after('id');
             $table->json('description')->after('title');
@@ -31,57 +31,72 @@ return new class extends Migration
         Schema::table('primary_images', function (Blueprint $table) {
             $table->json('title')->after('id');
             $table->json('description')->after('title');
+
+            // legacy/transitional columns - only add if they don't exist
+            if (!Schema::hasColumn('primary_images', 'title_ar')) {
+                $table->string('title_ar', 255)->nullable()->after('description');
+            }
+            if (!Schema::hasColumn('primary_images', 'title_en')) {
+                $table->string('title_en', 255)->nullable()->after('title_ar');
+            }
+            if (!Schema::hasColumn('primary_images', 'description_ar')) {
+                $table->text('description_ar')->nullable()->after('title_en');
+            }
+            if (!Schema::hasColumn('primary_images', 'description_en')) {
+                $table->text('description_en')->nullable()->after('description_ar');
+            }
         });
+
 
         // Migrate existing data
-        $this->migrateExistingData();
+        // $this->migrateExistingData();
 
         // Drop old columns
-        Schema::table('banners', function (Blueprint $table) {
-            $table->dropColumn(['title_ar', 'title_en', 'desctiption_ar', 'desctiption_en']);
-        });
+        // Schema::table('banners', function (Blueprint $table) {
+        //     $table->dropColumn(['title_ar', 'title_en', 'description_ar', 'description_en']);
+        // });
 
-        Schema::table('cards', function (Blueprint $table) {
-            $table->dropColumn(['title_ar', 'title_en', 'desctiption_ar', 'desctiption_en']);
-        });
+        // Schema::table('cards', function (Blueprint $table) {
+        //     $table->dropColumn(['title_ar', 'title_en', 'description_ar', 'description_en']);
+        // });
 
-        Schema::table('main_systems', function (Blueprint $table) {
-            $table->dropColumn(['name_ar', 'name_en', 'description_ar', 'description_en']);
-        });
+        // Schema::table('main_systems', function (Blueprint $table) {
+        //     $table->dropColumn(['name_ar', 'name_en', 'description_ar', 'description_en']);
+        // });
 
-        Schema::table('primary_images', function (Blueprint $table) {
-            $table->dropColumn(['title_ar', 'title_en']);
-        });
+        // Schema::table('primary_images', function (Blueprint $table) {
+        //     $table->dropColumn(['title_ar', 'title_en']);
+        // });
     }
 
     public function down(): void
     {
         // Restore old columns
-        Schema::table('banners', function (Blueprint $table) {
-            $table->string('title_ar', 255);
-            $table->string('title_en', 255);
-            $table->string('desctiption_ar', 255);
-            $table->string('desctiption_en', 255);
-        });
+        // Schema::table('banners', function (Blueprint $table) {
+        //     $table->string('title_ar', 255);
+        //     $table->string('title_en', 255);
+        //     $table->string('description_ar', 255);
+        //     $table->string('description_en', 255);
+        // });
 
-        Schema::table('cards', function (Blueprint $table) {
-            $table->string('title_ar', 255);
-            $table->string('title_en', 255);
-            $table->string('desctiption_ar', 255);
-            $table->string('desctiption_en', 255);
-        });
+        // Schema::table('cards', function (Blueprint $table) {
+        //     $table->string('title_ar', 255);
+        //     $table->string('title_en', 255);
+        //     $table->string('description_ar', 255);
+        //     $table->string('description_en', 255);
+        // });
 
-        Schema::table('main_systems', function (Blueprint $table) {
-            $table->string('name_ar');
-            $table->string('name_en');
-            $table->text('description_ar');
-            $table->text('description_en');
-        });
+        // Schema::table('main_systems', function (Blueprint $table) {
+        //     $table->string('name_ar');
+        //     $table->string('name_en');
+        //     $table->text('description_ar');
+        //     $table->text('description_en');
+        // });
 
-        Schema::table('primary_images', function (Blueprint $table) {
-            $table->string('title_ar');
-            $table->string('title_en');
-        });
+        // Schema::table('primary_images', function (Blueprint $table) {
+        //     $table->string('title_ar');
+        //     $table->string('title_en');
+        // });
 
         // Drop JSON columns
         Schema::table('banners', function (Blueprint $table) {
@@ -98,6 +113,20 @@ return new class extends Migration
 
         Schema::table('primary_images', function (Blueprint $table) {
             $table->dropColumn(['title', 'description']);
+
+            // Drop legacy columns if they exist
+            if (Schema::hasColumn('primary_images', 'title_ar')) {
+                $table->dropColumn('title_ar');
+            }
+            if (Schema::hasColumn('primary_images', 'title_en')) {
+                $table->dropColumn('title_en');
+            }
+            if (Schema::hasColumn('primary_images', 'description_ar')) {
+                $table->dropColumn('description_ar');
+            }
+            if (Schema::hasColumn('primary_images', 'description_en')) {
+                $table->dropColumn('description_en');
+            }
         });
     }
 
@@ -112,8 +141,8 @@ return new class extends Migration
                     'en' => $banner->title_en ?? '',
                 ]),
                 'description' => json_encode([
-                    'ar' => $banner->desctiption_ar ?? '',
-                    'en' => $banner->desctiption_en ?? '',
+                    'ar' => $banner->description_ar ?? '',
+                    'en' => $banner->description_en ?? '',
                 ])
             ]);
         }
@@ -127,8 +156,8 @@ return new class extends Migration
                     'en' => $card->title_en ?? '',
                 ]),
                 'description' => json_encode([
-                    'ar' => $card->desctiption_ar ?? '',
-                    'en' => $card->desctiption_en ?? '',
+                    'ar' => $card->description_ar ?? '',
+                    'en' => $card->description_en ?? '',
                 ])
             ]);
         }

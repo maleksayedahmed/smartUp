@@ -29,29 +29,54 @@ trait HasTranslationFields
             $arField = $field . '_ar';
             $enField = $field . '_en';
 
-            // Check if both AR and EN fields exist in the request
-            if (isset($this->attributes[$arField]) || isset($this->attributes[$enField])) {
-                $translations = [];
+            $hasAr = array_key_exists($arField, $this->attributes);
+            $hasEn = array_key_exists($enField, $this->attributes);
+            $hasJson = array_key_exists($field, $this->attributes);
 
-                // Add Arabic translation if exists
-                if (isset($this->attributes[$arField]) && !empty($this->attributes[$arField])) {
-                    $translations['ar'] = $this->attributes[$arField];
+            $jsonTranslations = [];
+
+            // Normalize existing JSON value (if provided)
+            if ($hasJson) {
+                $raw = $this->attributes[$field];
+                if (is_array($raw)) {
+                    $jsonTranslations = $raw;
+                } elseif (is_string($raw)) {
+                    $decoded = json_decode($raw, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        $jsonTranslations = $decoded;
+                    }
                 }
-
-                // Add English translation if exists
-                if (isset($this->attributes[$enField]) && !empty($this->attributes[$enField])) {
-                    $translations['en'] = $this->attributes[$enField];
-                }
-
-                // Store as JSON in the main field
-                if (!empty($translations)) {
-                    $this->attributes[$field] = json_encode($translations);
-                }
-
-                // Remove the individual language fields from attributes
-                unset($this->attributes[$arField]);
-                unset($this->attributes[$enField]);
             }
+
+            // Merge AR/EN scalar fields into JSON
+            if ($hasAr && !empty($this->attributes[$arField])) {
+                $jsonTranslations['ar'] = $this->attributes[$arField];
+            }
+            if ($hasEn && !empty($this->attributes[$enField])) {
+                $jsonTranslations['en'] = $this->attributes[$enField];
+            }
+
+            // If JSON exists but *_ar/_en missing, backfill scalar columns to keep both in sync
+            if (!empty($jsonTranslations)) {
+                $arValue = $jsonTranslations['ar'] ?? ($jsonTranslations['en'] ?? null);
+                $enValue = $jsonTranslations['en'] ?? ($jsonTranslations['ar'] ?? null);
+
+                if (!$hasAr || (isset($this->attributes[$arField]) && $this->attributes[$arField] === null)) {
+                    $this->attributes[$arField] = $arValue ?? '';
+                }
+                if (!$hasEn || (isset($this->attributes[$enField]) && $this->attributes[$enField] === null)) {
+                    $this->attributes[$enField] = $enValue ?? '';
+                }
+
+                // Persist JSON using Spatie if available; otherwise, assign normalized array
+                if (method_exists($this, 'setTranslations')) {
+                    $this->setTranslations($field, $jsonTranslations);
+                } else {
+                    $this->attributes[$field] = json_encode($jsonTranslations, JSON_UNESCAPED_UNICODE);
+                }
+            }
+
+            // IMPORTANT: Do NOT unset *_ar/_en to support legacy/non-nullable columns
         }
     }
 
@@ -61,6 +86,14 @@ trait HasTranslationFields
      */
     protected function getTranslationFields(): array
     {
-        return $this->translationFields ?? ['title', 'description'];
+        // Prefer the model's translatable fields (from spatie/laravel-translatable)
+        if (property_exists($this, 'translatable') && is_array($this->translatable) && !empty($this->translatable)) {
+            return $this->translatable;
+        }
+        // Fallback to explicitly defined list on the model, or sensible defaults
+        if (property_exists($this, 'translationFields') && is_array($this->translationFields) && !empty($this->translationFields)) {
+            return $this->translationFields;
+        }
+        return ['title', 'description'];
     }
 }

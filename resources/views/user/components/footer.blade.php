@@ -77,7 +77,13 @@
                         @else
                             <a href="#" class="footer-social-link">
                     @endif
-                    <i class="fab fa-youtube"></i>
+                     <i class="fab fa-youtube"></i>
+                    @if ($contactInfo && $contactInfo->snapchat)
+                        <a href="{{ $contactInfo->snapchat }}" class="footer-social-link">
+                        @else
+                            <a href="#" class="footer-social-link">
+                    @endif
+                    <i class="fab fa-snapchat"></i>
                     </a>
                     @if ($contactInfo && $contactInfo->tiktok)
                         <a href="{{ $contactInfo->tiktok }}" class="footer-social-link">

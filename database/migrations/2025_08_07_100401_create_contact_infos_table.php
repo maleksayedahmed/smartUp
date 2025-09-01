@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('X')->nullable();
             $table->string('address')->nullable();
             $table->string('whatsapp')->nullable();
+            $table->string('snapchat')->nullable();
             $table->string('logo');
             $table->string('site_name');
             $table->timestamps();

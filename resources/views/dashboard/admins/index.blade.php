@@ -78,7 +78,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel33">اضافة ادمن</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <div aria-hidden="true">&times;</div>
                     </button>
                 </div>
                 <form id="add_user_form">
@@ -169,7 +169,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel33">تعديل ادمن  </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <div aria-hidden="true">&times;</div>
                     </button>
                 </div>
                 <form id="edit_user_form">
@@ -260,7 +260,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel120">حذف ادمن </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <div aria-hidden="true">&times;</div>
                 </button>
             </div>
             <div class="modal-body">

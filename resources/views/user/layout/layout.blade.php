@@ -14,7 +14,8 @@
     }
 
     .iti__country-list {
-        z-index: 9999; /* Ensure dropdown appears above modal */
+        z-index: 9999;
+        /* Ensure dropdown appears above modal */
     }
 
     .iti__selected-flag {
@@ -81,6 +82,19 @@
                             <input type="email" class="form-control" id="consultationEmail" name="email">
                             <div class="invalid-feedback"></div>
                         </div>
+                        <div class="mb-3">
+                            <label for="consultationActionDate"
+                                class="form-label">{{ __('validation.attributes.action_date') }}</label>
+                            <input type="date" class="form-control" id="consultationActionDate" name="action_date"
+                                 max="2099-12-31">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="consultationActionTime"
+                                class="form-label">{{ __('validation.attributes.action_time') }}</label>
+                            <input type="time" class="form-control" id="consultationActionTime" name="action_time">
+                            <div class="invalid-feedback"></div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -124,7 +138,7 @@
             modal.show();
 
             // Initialize phone input after modal is shown
-            modal._element.addEventListener('shown.bs.modal', function () {
+            modal._element.addEventListener('shown.bs.modal', function() {
                 if (!phoneInput) {
                     initializePhoneInput();
                 }
@@ -138,9 +152,15 @@
                 initialCountry: "{{ app()->getLocale() == 'ar' ? 'sa' : 'auto' }}", // Default to Egypt for Arabic, auto-detect for others
                 geoIpLookup: function(callback) {
                     fetch('https://ipapi.co/json')
-                        .then(function(res) { return res.json(); })
-                        .then(function(data) { callback(data.country_code); })
-                        .catch(function() { callback('eg'); }); // Fallback to Egypt
+                        .then(function(res) {
+                            return res.json();
+                        })
+                        .then(function(data) {
+                            callback(data.country_code);
+                        })
+                        .catch(function() {
+                            callback('eg');
+                        }); // Fallback to Egypt
                 },
                 utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
                 preferredCountries: ['sa', 'eg', 'ae', 'us', 'gb'],
@@ -159,7 +179,8 @@
                     phoneInputElement.classList.add('is-invalid');
                     phoneInputElement.classList.remove('is-valid');
                     const feedback = phoneInputElement.closest('.mb-3').querySelector('.invalid-feedback');
-                    feedback.textContent = '{{ app()->getLocale() == "ar" ? "رقم الهاتف غير صحيح" : "Invalid phone number" }}';
+                    feedback.textContent =
+                        '{{ app()->getLocale() == 'ar' ? 'رقم الهاتف غير صحيح' : 'Invalid phone number' }}';
                 }
             });
 
@@ -190,7 +211,8 @@
                 const phoneInputElement = document.querySelector('#consultationPhone');
                 phoneInputElement.classList.add('is-invalid');
                 const feedback = phoneInputElement.closest('.mb-3').querySelector('.invalid-feedback');
-                feedback.textContent = '{{ app()->getLocale() == "ar" ? "يرجى إدخال رقم هاتف صحيح" : "Please enter a valid phone number" }}';
+                feedback.textContent =
+                    '{{ app()->getLocale() == 'ar' ? 'يرجى إدخال رقم هاتف صحيح' : 'Please enter a valid phone number' }}';
                 return;
             }
 
@@ -264,11 +286,27 @@
         }
 
         // Clean up phone input when modal is hidden
-        document.getElementById('consultationModal').addEventListener('hidden.bs.modal', function () {
+        document.getElementById('consultationModal').addEventListener('hidden.bs.modal', function() {
             if (phoneInput) {
                 phoneInput.destroy();
                 phoneInput = null;
             }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let today = new Date();
+
+            // صياغة التاريخ بصيغة YYYY-MM-DD
+            let day = String(today.getDate()).padStart(2, '0');
+            let month = String(today.getMonth() + 1).padStart(2, '0'); // الشهر يبدأ من 0
+            let year = today.getFullYear();
+
+            let currentDate = year + '-' + month + '-' + day;
+
+            // نحط القيمة في min
+            document.getElementById("consultationActionDate").setAttribute("min", currentDate);
         });
     </script>
 

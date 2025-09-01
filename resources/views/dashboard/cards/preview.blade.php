@@ -58,7 +58,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPreviewCardModalLabel">تعديل البطاقة</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <div aria-hidden="true">&times;</div>
                     </button>
                 </div>
                 <form id="editPreviewCardForm" method="POST"

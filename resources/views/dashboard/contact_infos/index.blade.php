@@ -68,6 +68,10 @@
                         <i data-feather="globe" class="mr-1 text-primary"></i>
                         <strong class="mr-2">اسم الموقع:</strong> {{ $contact_infos->site_name }}
                     </li>
+                        <li class="list-group-item d-flex align-items-center">
+                        <i data-feather="snapchat" class="mr-1 text-primary"></i>
+                        <strong class="mr-2">سناب شات:</strong> {{ $contact_infos->snapchat }}
+                    </li>
                 </ul>
 
                 <button type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#edit_user">
@@ -86,7 +90,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel33">تعديل معلومات التواصل</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <div aria-hidden="true">&times;</div>
                     </button>
                 </div>
                 <form id="edit_user_form" enctype="multipart/form-data">
@@ -141,6 +145,13 @@
                                 <div class="form-group">
                                     <input type="text" name="whatsapp" value="{{ $contact_infos->whatsapp }}" class="form-control" />
                                     <span id="whatsapp_error" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>سناب شات</label>
+                                <div class="form-group">
+                                    <input type="text" name="snapchat" value="{{ $contact_infos->snapchat }}" class="form-control" />
+                                    <span id="snapchat_error" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">

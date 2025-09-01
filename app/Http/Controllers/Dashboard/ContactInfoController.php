@@ -62,6 +62,7 @@ class ContactInfoController extends Controller
                 'X' => 'nullable|url',
                 'linkedin' => 'nullable|url',
                 'whatsapp' => 'nullable|string|max:20',
+                'snapchat' => 'nullable|string|max:50',
                 'site_name' => 'nullable|string|max:255',
                 'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 
@@ -95,6 +96,7 @@ class ContactInfoController extends Controller
             $contact_info->X = $request->X;
             $contact_info->linkedin = $request->linkedin;
             $contact_info->whatsapp = $request->whatsapp;
+            $contact_info->snapchat = $request->snapchat;
             $contact_info->site_name = $request->site_name;
 
             // معالجة صورة الشعار

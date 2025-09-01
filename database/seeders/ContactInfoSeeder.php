@@ -37,6 +37,7 @@ class ContactInfoSeeder extends Seeder
             'instagram' => 'https://instagram.com/example',
             'tiktok' => 'https://tiktok.com/@example',
             'youtube' => 'https://youtube.com/example',
+            'snapchat' => 'https://snapchat.com/example',
             'whatsapp' => '+966501234567',
             'linkedin' => 'https://linkedin.com/company/example',
             'X' => 'https://twitter.com/example',

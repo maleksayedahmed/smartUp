@@ -53,6 +53,8 @@
                             <th>اختيار الصورة الرئيسية</th>
                             <th>العنوان بالعربي</th>
                             <th>العنوان بالانجلش</th>
+                            <th>الوصف بالعربي</th>
+                            <th>الوصف بالانجلش</th>
                             <th>العمليات</th>
 
 
@@ -101,6 +103,20 @@
                                 <div class="form-group">
                                     <input type="text"  name="title_en" id="title_en" class="form-control" />
                                     <span id="title_en_error" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label> الوصف بالعربي </label>
+                                <div class="form-group">
+                                    <input type="text"  name="description_ar" id="description_ar" class="form-control" />
+                                    <span id="description_ar_error" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label> الوصف بالانجلش </label>
+                                <div class="form-group">
+                                    <input type="text"  name="description_en" id="description_en" class="form-control" />
+                                    <span id="description_en_error" class="text-danger"></span>
                                 </div>
                             </div>
 
@@ -175,6 +191,20 @@
                                 <div class="form-group">
                                     <input type="text" name="title_en" id="title_en2" class="form-control" />
                                     <span id="title_en2_error" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label> الوصف بالعربي </label>
+                                <div class="form-group">
+                                    <textarea type="text" name="description_ar" id="description_ar2" class="form-control" rows="4"></textarea>
+                                    <span id="description_ar2_error" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label> الوصف بالانجلش </label>
+                                <div class="form-group">
+                                    <textarea type="text" name="description_en" id="description_en2" class="form-control" rows="4"></textarea>
+                                    <span id="description_en2_error" class="text-danger"></span>
                                 </div>
                             </div>
 
@@ -347,6 +377,8 @@
                 {data: 'is_view'       ,name: 'is_view'},
                 {data: 'title_ar'      ,name: 'title_ar'},
                 {data: 'title_en'      ,name: 'title_en'},
+                {data: 'description_ar'      ,name: 'description_ar'},
+                {data: 'description_en'      ,name: 'description_en'},
                 {data: 'action'        ,name: 'action'},
             ],
             "lengthMenu": [[5,25,50,-1],[5,25,50,'All']],     // page length options
@@ -492,10 +524,17 @@
             var image =               button.data('image')
             var title_ar =               button.data('title_ar')
             var title_en =               button.data('title_en')
+            var description_ar =               button.data('description_ar')
+            var description_en =               button.data('description_en')
+
 
 
             var modal = $(this)
             modal.find('.modal-body #id2').val(id);
+            modal.find('.modal-body #title_ar2').val(title_ar);
+            modal.find('.modal-body #title_en2').val(title_en);
+            modal.find('.modal-body #description_ar2').val(description_ar);
+            modal.find('.modal-body #description_en2').val(description_en);
             $(".modal-body #image2").attr('src', image);
 
         })

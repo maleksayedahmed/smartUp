@@ -5,6 +5,8 @@ data-id=            "{{ $data->id }}"
 data-image=         "{{ $data->image }}"
 data-title_ar=          "{{ $data->title_ar }}"
 data-title_en=          "{{ $data->title_en }}"
+data-description_ar=          "{{ $data->description_ar }}"
+data-description_en=          "{{ $data->description_en }}"
 
 
 

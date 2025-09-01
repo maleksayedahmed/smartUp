@@ -98,6 +98,8 @@ class PrimaryImagesController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'title_ar' => 'nullable|string',
                 'title_en' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
             ], [
                 'image.required' => 'الصورة مطلوبة',
                 'image.image' => 'الملف يجب أن يكون صورة',
@@ -115,6 +117,9 @@ class PrimaryImagesController extends Controller
             $primaryImage = new PrimaryImage();
             $primaryImage->title_ar = $request->title_ar;
             $primaryImage->title_en = $request->title_en;
+            $primaryImage->description_ar = $request->description_ar;
+            $primaryImage->description_en = $request->description_en;
+
 
             if ($request->hasFile('image')) {
                 $image_url = Str::uuid() . '.' . $request->image->getClientOriginalExtension();
@@ -144,6 +149,9 @@ class PrimaryImagesController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'title_ar' => 'nullable|string',
                 'title_en' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+
                 'id' => 'required|exists:primary_images,id',
             ], [
                 'image.image' => 'الملف يجب أن يكون صورة',
@@ -168,6 +176,13 @@ class PrimaryImagesController extends Controller
             if ($request->has('title_en')) {
                 $primaryImages->title_en = $request->title_en;
             }
+            if ($request->has('description_ar')) {
+                $primaryImages->description_ar = $request->description_ar;
+            }
+            if ($request->has('description_en')) {
+                $primaryImages->description_en = $request->description_en;
+            }
+
 
             if ($request->hasFile('image')) {
                 $oldImagePath = public_path('attachments/primaryImages/' . $primaryImages->image);

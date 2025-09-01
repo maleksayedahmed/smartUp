@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title_ar',255);
-            $table->string('title_en',255);
-            $table->string('description_ar',255);
-            $table->string('description_en',255);
+            $table->string('title_ar',255)->nullable();
+            $table->string('title_en',255)->nullable();
+            $table->string('description_ar',255)->nullable();
+            $table->string('description_en',255)->nullable();
             $table->timestamps();
         });
     }

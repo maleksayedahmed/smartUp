@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Log;
 
 class BannerSeeder extends Seeder
 {
@@ -23,8 +24,8 @@ class BannerSeeder extends Seeder
         ];
 
         foreach ($banners as $banner) {
+
             Banner::firstOrCreate(
-                ['title->ar' => $banner['title']['ar']],
                 [
                     'title' => $banner['title'],
                     'title_ar' => $banner['title']['ar'],

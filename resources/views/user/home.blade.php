@@ -500,39 +500,40 @@
 
                 <!-- Form Section -->
                 <div class="contact-form-section">
-                    <form class="contact-form">
+                    <form class="contact-form" method="POST">
+                        @csrf
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="phone">{{ __('home.contact.form.phone') }}</label>
                                 <div class="phone-input-group">
                                     <span class="country-flag">🇸🇦</span>
-                                    <input type="tel" id="phone"
-                                        placeholder="{{ __('home.contact.form.phone_placeholder') }}">
+                                    <input type="tel" id="phone" name="phone"
+                                        placeholder="{{ __('home.contact.form.phone_placeholder') }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="name">{{ __('home.contact.form.name') }}</label>
-                                <input type="text" id="name"
-                                    placeholder="{{ __('home.contact.form.name_placeholder') }}">
+                                <input type="text" id="name" name="name"
+                                    placeholder="{{ __('home.contact.form.name_placeholder') }}" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="subject">{{ __('home.contact.form.subject') }}</label>
-                                <input type="text" id="subject"
-                                    placeholder="{{ __('home.contact.form.subject_placeholder') }}">
+                                <input type="text" id="subject" name="subject"
+                                    placeholder="{{ __('home.contact.form.subject_placeholder') }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">{{ __('home.contact.form.email') }}</label>
-                                <input type="email" id="email"
-                                    placeholder="{{ __('home.contact.form.email_placeholder') }}">
+                                <input type="email" id="email" name="email"
+                                    placeholder="{{ __('home.contact.form.email_placeholder') }}" required>
                             </div>
                         </div>
 
                         <div class="form-group full-width">
                             <label for="message">{{ __('home.contact.form.message') }}</label>
-                            <textarea id="message" rows="2" placeholder="{{ __('home.contact.form.message_placeholder') }}"></textarea>
+                            <textarea id="message" name="message" rows="2" placeholder="{{ __('home.contact.form.message_placeholder') }}" required></textarea>
                         </div>
 
                         <button type="submit" class="contact-submit-btn">

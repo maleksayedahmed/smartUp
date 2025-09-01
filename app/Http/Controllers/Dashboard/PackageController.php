@@ -16,6 +16,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PackageController extends Controller
 {
@@ -56,7 +57,7 @@ class PackageController extends Controller
             }
 
             // Systems
-            foreach ($data['systems'] ?? [] as $sys) {
+            foreach ($data['systems'] ?? [] as $sysIndex => $sys) {
                 $pkgSys = new PackageSystem();
                 $pkgSys->package_id = $package->id;
                 $pkgSys->slug = $sys['slug'] ?? null;
@@ -64,13 +65,22 @@ class PackageController extends Controller
                 $pkgSys->setTranslations('description', $sys['description'] ?? []);
                 $pkgSys->save();
 
-                // media
-                if (!empty($sys['images'])) {
-                    foreach ($sys['images'] as $image) {
-                        if ($image instanceof \Illuminate\Http\UploadedFile) {
-                            $pkgSys->addMedia($image)->toMediaCollection('images');
-                        }
-                    }
+                // Handle media uploads
+                if ($request->hasFile("systems.{$sysIndex}.icon")) {
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.icon")
+                           ->toMediaCollection('icon');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.image1")) {
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.image1")
+                           ->toMediaCollection('image1');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.image2")) {
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.image2")
+                           ->toMediaCollection('image2');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.video")) {
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.video")
+                           ->toMediaCollection('video');
                 }
 
                 // features
@@ -107,31 +117,76 @@ class PackageController extends Controller
                 $benefit->save();
             }
 
-            // sync systems
-            $package->systems()->each(function ($sys) { $sys->features()->delete(); $sys->clearMediaCollection('images'); });
-            $package->systems()->delete();
-            foreach ($data['systems'] ?? [] as $sys) {
-                $pkgSys = new PackageSystem();
-                $pkgSys->package_id = $package->id;
+            // sync systems without losing existing media unless new files are uploaded
+            $existingSystems = $package->systems()->with('features')->get()->values();
+            $keptSystemIds = [];
+
+            foreach ($data['systems'] ?? [] as $sysIndex => $sys) {
+                $pkgSys = $existingSystems->get($sysIndex) ?? new PackageSystem();
+
+                if (!$pkgSys->exists) {
+                    $pkgSys->package_id = $package->id;
+                }
+
                 $pkgSys->slug = $sys['slug'] ?? null;
                 $pkgSys->setTranslations('title', $sys['title']);
                 $pkgSys->setTranslations('description', $sys['description'] ?? []);
                 $pkgSys->save();
 
-                if (!empty($sys['images'])) {
-                    foreach ($sys['images'] as $image) {
-                        if ($image instanceof \Illuminate\Http\UploadedFile) {
-                            $pkgSys->addMedia($image)->toMediaCollection('images');
-                        }
-                    }
+                $keptSystemIds[] = $pkgSys->id;
+
+                // Replace media ONLY when a new file is uploaded; otherwise keep existing
+                if ($request->hasFile("systems.{$sysIndex}.icon")) {
+                    $pkgSys->clearMediaCollection('icon');
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.icon")
+                           ->toMediaCollection('icon');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.image1")) {
+                    $pkgSys->clearMediaCollection('image1');
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.image1")
+                           ->toMediaCollection('image1');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.image2")) {
+                    $pkgSys->clearMediaCollection('image2');
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.image2")
+                           ->toMediaCollection('image2');
+                }
+                if ($request->hasFile("systems.{$sysIndex}.video")) {
+                    $pkgSys->clearMediaCollection('video');
+                    $pkgSys->addMediaFromRequest("systems.{$sysIndex}.video")
+                           ->toMediaCollection('video');
                 }
 
+                // features: recreate per submitted payload
+                $pkgSys->features()->delete();
                 foreach ($sys['features'] ?? [] as $f) {
                     $feat = new PackageSystemFeature();
                     $feat->package_system_id = $pkgSys->id;
                     $feat->setTranslations('title', $f['title']);
                     $feat->save();
                 }
+            }
+
+            // Remove systems that were not sent in the request
+            if (!empty($keptSystemIds)) {
+                $package->systems()->whereNotIn('id', $keptSystemIds)->get()->each(function ($sys) {
+                    $sys->features()->delete();
+                    $sys->clearMediaCollection('icon');
+                    $sys->clearMediaCollection('image1');
+                    $sys->clearMediaCollection('image2');
+                    $sys->clearMediaCollection('video');
+                    $sys->delete();
+                });
+            } else {
+                // If no systems provided, remove all existing
+                $package->systems()->get()->each(function ($sys) {
+                    $sys->features()->delete();
+                    $sys->clearMediaCollection('icon');
+                    $sys->clearMediaCollection('image1');
+                    $sys->clearMediaCollection('image2');
+                    $sys->clearMediaCollection('video');
+                    $sys->delete();
+                });
             }
         });
 
@@ -160,7 +215,10 @@ class PackageController extends Controller
             'systems.*.title.en' => ['required', 'string', 'max:255'],
             'systems.*.description.ar' => ['nullable', 'string'],
             'systems.*.description.en' => ['nullable', 'string'],
-            'systems.*.images.*' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:4096'],
+            'systems.*.icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:2048'],
+            'systems.*.image1' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:4096'],
+            'systems.*.image2' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:4096'],
+            'systems.*.video' => ['nullable', 'file', 'mimes:mp4,avi,mov,wmv,flv,webm', 'max:20480'], // 20MB max for video
             'systems.*.features' => ['array'],
             'systems.*.features.*.title.ar' => ['required', 'string', 'max:255'],
             'systems.*.features.*.title.en' => ['required', 'string', 'max:255'],
@@ -207,16 +265,16 @@ class PackageController extends Controller
                 })
 
                 ->addColumn('action', function ($data) {
-                    return '<a href="'.route('dashboard.packages.edit', $data->id).'" class="btn btn-sm btn-primary">تعديل</a>';
+                    return view('dashboard.packages.btn.action', compact('data'))->render();
                 })
 
-                ->rawColumns(['features', 'systems', 'package_spec'])
+                ->rawColumns(['features', 'systems', 'package_spec', 'action'])
 
                 ->make(true);
         }
     }
 
-    
+
 
     public function store_packages(Request $request)
     {

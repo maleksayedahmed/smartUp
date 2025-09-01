@@ -12,10 +12,11 @@ class PackagesPageController extends Controller
 {
     public function index(Request $request)
     {
-        $packages = Package::with(['systems.features', 'features', 'benefits'])->get();
+        $packages = Package::with(['systems.features', 'systems.media', 'features', 'benefits'])->get();
         $testimonials = Testimony::orderBy('id')->take(3)->get();
         $contactInfo = ContactInfo::first();
-        
+
+
         return view('user.packages', compact('packages', 'testimonials', 'contactInfo'));
     }
 }

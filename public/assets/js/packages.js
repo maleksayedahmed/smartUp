@@ -134,17 +134,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 const detail = document.createElement('div');
                 detail.className = 'system-detail' + (isActive ? ' active' : '');
                 detail.setAttribute('data-system', sysSlug);
+                const imageUrls = [sys.image1, sys.image2].filter(Boolean);
+                const videoSrc = sys.video || '';
+                const posterSrc = sys.image1 || '/assets/images/image-1.svg';
+                const iconSrc = sys.icon || '/assets/images/Security Camera Icon.svg';
                 detail.innerHTML = `
                     <div class="package-detail-content">
                         <div class="package-visuals">
                             <div class="surveillance-video">
                                 <div class="video-container">
-                                    <video src="" poster="/assets/images/image-1.svg" controls playsinline></video>
+                                    <video src="${videoSrc}" poster="${posterSrc}" controls playsinline></video>
                                 </div>
                             </div>
                             <div class="camera-images">
-                                ${(sys.images || []).map(url => `
-                                    <div class="camera-image gallery-item" onclick=\"openModal(this)\" data-src=\"${url}\" data-title=\"\" data-description=\"\">
+                                ${imageUrls.map(url => `
+                                    <div class="camera-image gallery-item" onclick=\"openModal(this)\" data-src=\"${url}\" data-title=\"${(sys.title && sys.title[locale]) || ''}\" data-description=\"${(sys.description && sys.description[locale]) || ''}\"> 
                                         <img src=\"${url}\" alt=\"${(sys.title && sys.title[locale]) || ''}\">
                                     </div>
                                 `).join('')}
@@ -152,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="package-content">
                             <div class="package-icon">
-                                <img src="/assets/images/Security Camera Icon.svg" alt="icon">
+                                <img src="${iconSrc}" alt="${(sys.title && sys.title[locale]) || 'icon'}">
                             </div>
                             <div class="package-header">
                                 <h3 class="package-name">${(sys.title && sys.title[locale]) || ''}</h3>

@@ -33,7 +33,10 @@
                                         'slug' => $s->slug,
                                         'title' => $s->getTranslations('title'),
                                         'description' => $s->getTranslations('description'),
-                                        'images' => $s->getMedia('images')->map(fn($m)=>$m->getUrl())->values(),
+                                        'icon' => $s->getFirstMedia('icon')?->getUrl(),
+                                        'image1' => $s->getFirstMedia('image1')?->getUrl(),
+                                        'image2' => $s->getFirstMedia('image2')?->getUrl(),
+                                        'video' => $s->getFirstMedia('video')?->getUrl(),
                                         'features' => $s->features->map(fn($f)=>$f->getTranslations('title'))->values(),
                                     ];
                                 })->values(),
@@ -81,29 +84,72 @@
                             <div class="package-visuals">
                                 <div class="surveillance-video">
                                     <div class="video-container">
-                                        <video src="" poster="{{ asset('assets/images/image-1.svg') }}" controls
-                                            playsinline></video>
+                                        @php $videoMedia = $sys->getFirstMedia('video'); @endphp
+                                        @if ($videoMedia)
+                                            <video src="{{ $videoMedia->getUrl() }}"
+                                                poster="{{ $sys->getFirstMedia('image1')?->getUrl() ?? asset('assets/images/image-1.svg') }}"
+                                                controls playsinline>
+                                                متصفحك لا يدعم تشغيل الفيديو
+                                            </video>
+                                        @else
+                                            <video
+                                                poster="{{ $sys->getFirstMedia('image1')?->getUrl() ?? asset('assets/images/image-1.svg') }}"
+                                                controls playsinline>
+                                                لا يوجد فيديو متاح
+                                            </video>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="camera-images">
-                                    @foreach ($sys->getMedia('images') ?? collect() as $media)
+                                    @php
+                                        $image1 = $sys->getFirstMedia('image1');
+                                        $image2 = $sys->getFirstMedia('image2');
+                                    @endphp
+                                    @if ($image1)
                                         <div class="camera-image gallery-item" onclick="openModal(this)"
-                                            data-src="{{ $media->getUrl() }}" data-title="" data-description="">
-                                            <img src="{{ $media->getUrl() }}"
+                                            data-src="{{ $image1->getUrl() }}"
+                                            data-title="{{ $sys->getTranslation('title', app()->getLocale()) }}"
+                                            data-description="{{ $sys->getTranslation('description', app()->getLocale()) }}">
+                                            <img src="{{ $image1->getUrl() }}"
                                                 alt="{{ $sys->getTranslation('title', app()->getLocale()) }}">
                                         </div>
-                                    @endforeach
+                                    @else
+                                        <div class="camera-image gallery-item">
+                                            <img src="{{ asset('assets/images/Security Camera Icon.svg') }}"
+                                                alt="{{ $sys->getTranslation('title', app()->getLocale()) }}">
+                                        </div>
+                                    @endif
+                                    @if ($image2)
+                                        <div class="camera-image gallery-item" onclick="openModal(this)"
+                                            data-src="{{ $image2->getUrl() }}"
+                                            data-title="{{ $sys->getTranslation('title', app()->getLocale()) }}"
+                                            data-description="{{ $sys->getTranslation('description', app()->getLocale()) }}">
+                                            <img src="{{ $image2->getUrl() }}"
+                                                alt="{{ $sys->getTranslation('title', app()->getLocale()) }}">
+                                        </div>
+                                    @else
+                                        <div class="camera-image gallery-item">
+                                            <img src="{{ asset('assets/images/Security Camera Icon.svg') }}"
+                                                alt="{{ $sys->getTranslation('title', app()->getLocale()) }}">
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="package-content">
                                 <div class="package-icon">
-                                    <img src="{{ asset('assets/images/Security Camera Icon.svg') }}" alt="icon">
+                                    @if ($sys->getFirstMedia('icon'))
+                                        <img src="{{ $sys->getFirstMedia('icon')->getUrl() }}"
+                                            alt="{{ $sys->getTranslation('title', app()->getLocale()) }}">
+                                    @else
+                                        <img src="{{ asset('assets/images/Security Camera Icon.svg') }}" alt="icon">
+                                    @endif
                                 </div>
                                 <div class="package-header">
                                     <h3 class="package-name">{{ $sys->getTranslation('title', app()->getLocale()) }}</h3>
                                     <p class="package-description">
-                                        {{ $sys->getTranslation('description', app()->getLocale()) }}</p>
+                                        {{ $sys->getTranslation('description', app()->getLocale()) }}
+                                    </p>
                                 </div>
                                 <div class="feature-tags">
                                     @foreach ($sys->features ?? collect() as $f)

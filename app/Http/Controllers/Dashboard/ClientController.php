@@ -14,24 +14,25 @@ use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
-    public function clients(){
+    public function clients()
+    {
 
         return view('dashboard.clients.index');
     }
 
 
-    public function preview_clients($id){
+    public function preview_clients($id)
+    {
 
         $preview_client = Client::find($id);
 
-        if($preview_client){
+        if ($preview_client) {
 
             return view('dashboard.clients.preview', compact('preview_client'));
-        }else{
+        } else {
 
             return redirect()->back();
         }
-
     }
 
 
@@ -40,7 +41,7 @@ class ClientController extends Controller
     public function get_all_clients(Request $request)
     {
         if ($request->ajax()) {
-            $data = Client::orderBy('id','desc');
+            $data = Client::orderBy('id', 'desc');
             return Datatables::of($data)
 
                 ->addIndexColumn()
@@ -59,7 +60,24 @@ class ClientController extends Controller
         }
     }
 
+    public function destroy_clients(Request $request)
+    {
 
+        try {
 
+            $partners = Client::find($request->id);
+            $partners->delete();
+            return response()->json([
+                'status' => true,
+                'msg' => 'deleted Successfully',
+            ]);
+        } catch (\Exception $e) {
 
+            return response()->json([
+                'status' => false,
+                'msg' => 'حدث خطأ أثناء تعديل الحالة. يرجى المحاولة لاحقًا.',
+                'error' => $e->getMessage(), // يمكن إزالتها في بيئات الإنتاج
+            ], 500);
+        }
+    }
 }
